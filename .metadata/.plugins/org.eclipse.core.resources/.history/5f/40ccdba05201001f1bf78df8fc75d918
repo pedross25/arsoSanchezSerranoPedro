@@ -1,0 +1,5 @@
+package alquileres.persistencia.jpa;
+
+public class EntityManagerHelper {
+
+}

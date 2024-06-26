@@ -1,0 +1,104 @@
+package alquileres.modelo;
+
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Usuario {
+
+	private String id;
+	private List<Reserva> reservas;
+	private List<Alquiler> alquileres;
+
+	public Usuario(String id, List<Reserva> reservas, List<Alquiler> alquileres) {
+		this.id = id;
+		this.reservas = reservas;
+		this.alquileres = alquileres;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public List<Alquiler> getAlquileres() {
+		return alquileres;
+	}
+
+	public void setAlquileres(List<Alquiler> alquileres) {
+		this.alquileres = alquileres;
+	}
+
+	public int getReservasCaducadas() {
+		return (int) reservas.stream().filter(Reserva::isCaducada).count();
+	}
+	
+	// TODO Probar
+	public int getTiempoUsoHoy() {
+        LocalDateTime hoy = LocalDateTime.now();
+        int tiempoTotal = 0;
+        for (Alquiler alquiler : alquileres) {
+            LocalDateTime inicio = alquiler.getInicio();
+            if (inicio.toLocalDate().equals(hoy)) {
+                tiempoTotal += alquiler.getTiempo();
+            }
+        }
+        return tiempoTotal;
+    }
+	
+	public int getTiempoUsoSemana() {
+        LocalDateTime haceUnaSemana = LocalDateTime.now().minusWeeks(1);
+        int tiempoTotal = 0;
+        for (Alquiler alquiler : alquileres) {
+            LocalDateTime inicio = alquiler.getInicio();
+            if (inicio.isAfter(haceUnaSemana) || inicio.isEqual(haceUnaSemana)) {
+                tiempoTotal += alquiler.getTiempo();
+            }
+        }
+        return tiempoTotal;
+    }
+	
+	// Método para determinar si el usuario ha superado el tiempo de uso hoy o en la semana
+    public boolean superaTiempo() {
+        return getTiempoUsoHoy() >= 60 || getTiempoUsoSemana() >= 180;
+    }
+
+    // Método para obtener la última reserva activa
+    public Reserva reservaActiva() {
+        for (int i = reservas.size() - 1; i >= 0; i--) {
+            Reserva reserva = reservas.get(i);
+            if (reserva.isActiva()) {
+                return reserva;
+            }
+        }
+        return null; // Si no hay ninguna reserva activa
+    }
+
+    // Método para obtener el último alquiler activo
+    public Alquiler alquilerActivo() {
+        for (int i = alquileres.size() - 1; i >= 0; i--) {
+            Alquiler alquiler = alquileres.get(i);
+            if (alquiler.isActivo()) {
+                return alquiler;
+            }
+        }
+        return null; // Si no hay ningún alquiler activo
+    }
+
+    // Método para determinar si el usuario está bloqueado debido a 3 reservas caducadas
+    public boolean bloqueado() {
+        return getReservasCaducadas() >= 3;
+    }
+
+}

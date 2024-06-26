@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="repositorio.RepositorioException"/>
+    <fullyQualifiedTypeName name="repositorio.FactoriaRepositorios"/>
+    <fullyQualifiedTypeName name="repositorio.Repositorio"/>
+    <fullyQualifiedTypeName name="alquileres.modelo.Usuario"/>
+    <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
+    <fullyQualifiedTypeName name="repositorio.Identificable"/>
+    <fullyQualifiedTypeName name="repositorio.EntidadNoEncontrada"/>
+    <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
+    <fullyQualifiedTypeName name="alquileres.modelo.Reserva"/>
+    <fullyQualifiedTypeName name="alquileres.modelo.Alquiler"/>
+    <fullyQualifiedTypeName name="alquileres.servicio.UsuarioResumen"/>
+    <fullyQualifiedTypeName name="alquileres.persistencia.jpa.EntityManagerHelper"/>
+    <fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="javax.persistence.GenerationType"/>
+    <fullyQualifiedTypeName name="javax.persistence.Entity"/>
+    <fullyQualifiedTypeName name="javax.persistence.Table"/>
+    <fullyQualifiedTypeName name="javax.persistence.Id"/>
+    <fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
+    <fullyQualifiedTypeName name="javax.persistence.JoinColumn"/>
+    <fullyQualifiedTypeName name="javax.persistence.Column"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="javax.persistence.OneToMany"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="utils.Utils"/>
+    <fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
+    <fullyQualifiedTypeName name="javax.persistence.EntityTransaction"/>
+    <fullyQualifiedTypeName name="javax.persistence.Query"/>
+    <fullyQualifiedTypeName name="org.eclipse.persistence.config.QueryHints"/>
+    <fullyQualifiedTypeName name="org.eclipse.persistence.config.HintValues"/>
+</qualifiedTypeNameHistroy>

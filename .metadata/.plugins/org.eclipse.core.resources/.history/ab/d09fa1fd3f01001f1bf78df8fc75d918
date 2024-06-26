@@ -1,0 +1,30 @@
+package alquileres.modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Estacion {
+    private String id;
+    private List<String> bicicletasDisponibles;
+
+    public Estacion(String id) {
+        this.id = id;
+        this.bicicletasDisponibles = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public List<String> getBicicletasDisponibles() {
+        return new ArrayList<>(bicicletasDisponibles); // Devuelve una copia de la lista para evitar modificaciones externas
+    }
+
+    public void agregarBicicleta(String idBicicleta) {
+        bicicletasDisponibles.add(idBicicleta);
+    }
+
+    public void removerBicicleta(String idBicicleta) {
+        bicicletasDisponibles.remove(idBicicleta);
+    }
+}

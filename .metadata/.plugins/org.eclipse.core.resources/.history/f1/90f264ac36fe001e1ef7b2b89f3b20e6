@@ -1,0 +1,47 @@
+package alquileres.modelo;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class Usuario {
+
+	private String id;
+	private List<Reserva> reservas;
+	private List<Alquiler> alquileres;
+
+	public Usuario(String id, List<Reserva> reservas, List<Alquiler> alquileres) {
+		this.id = id;
+		this.reservas = reservas;
+		this.alquileres = alquileres;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public List<Alquiler> getAlquileres() {
+		return alquileres;
+	}
+
+	public void setAlquileres(List<Alquiler> alquileres) {
+		this.alquileres = alquileres;
+	}
+
+	public int getReservasCaducadas() {
+		reservas.stream().filter(Reserva::isCaducada).count();
+
+	}
+
+}

@@ -1,0 +1,54 @@
+package alquileres.persistencia.jpa;
+
+import java.util.List;
+
+import repositorio.EntidadNoEncontrada;
+import repositorio.Identificable;
+import repositorio.RepositorioException;
+import repositorio.RepositorioString;
+import utils.Utils;
+
+public class RepositorioJpa<T extends Identificable> implements RepositorioString<T> {
+
+	@Override
+	public String add(T entity) throws RepositorioException {
+		if (entity.getId() ==  null) {
+			entity.setId(Utils.createId());
+		}
+		EntityManagerHelper.getEntityManager().persist(entity);
+		return entity.getId();
+	}
+
+	@Override
+	public void update(T entity) throws RepositorioException, EntidadNoEncontrada {
+		if (! EntityManagerHelper.getEntityManager().contains(entity))
+			throw new EntidadNoEncontrada(entity.getId() + " no existe en el repositorio");
+		
+		EntityManagerHelper.getEntityManager().merge(entity);	
+	}
+
+	@Override
+	public void delete(T entity) throws RepositorioException, EntidadNoEncontrada {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public T getById(String id) throws RepositorioException, EntidadNoEncontrada {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<T> getAll() throws RepositorioException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getIds() throws RepositorioException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

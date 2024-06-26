@@ -1,0 +1,48 @@
+package alquileres.modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Estacion {
+    private String id;
+    private List<Bicicleta> bicicletasDisponibles;
+    private int capacidadMaxima;
+
+    public Estacion(String id, int capacidadMaxima) {
+        this.id = id;
+        this.capacidadMaxima = capacidadMaxima;
+        this.bicicletasDisponibles = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getCapacidadMaxima() {
+        return capacidadMaxima;
+    }
+
+    public List<String> getBicicletasDisponibles() {
+        return new ArrayList<>(bicicletasDisponibles);
+    }
+
+    public int getHuecosDisponibles() {
+        return capacidadMaxima - bicicletasDisponibles.size();
+    }
+
+    public boolean estacionamientoDisponible() {
+        return bicicletasDisponibles.size() < capacidadMaxima;
+    }
+
+    public void agregarBicicleta(String idBicicleta) {
+        if (estacionamientoDisponible()) {
+            bicicletasDisponibles.add(idBicicleta);
+        } else {
+            throw new IllegalStateException("No hay espacio disponible en la estación");
+        }
+    }
+
+    public void removerBicicleta(String idBicicleta) {
+        bicicletasDisponibles.remove(idBicicleta);
+    }
+}

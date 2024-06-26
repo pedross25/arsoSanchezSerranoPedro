@@ -1,0 +1,6 @@
+package alquileres.servicio;
+
+public interface IServicioEstaciones {
+	
+	
+}

@@ -1,0 +1,18 @@
+INDEX VERSION 1.132+C:\Users\Pedro\Desktop\arso24\.metadata\.plugins\org.eclipse.jdt.core
+606184086.index
+112287058.index
+2725829604.index
+3133754822.index
+1766091877.index
+846421389.index
+3211335541.index
+1865797976.index
+194029841.index
+2313916174.index
+2322243918.index
+4066605418.index
+367468583.index
+2462372241.index
+155348327.index
+2532100804.index
+26012135.index

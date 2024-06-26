@@ -1,0 +1,8 @@
+package alquileres.servicio;
+
+import repositorio.EntidadNoEncontrada;
+
+public interface IServicioEstaciones {
+	
+	boolean isHuecoDisponible(String idEstacion) throws EntidadNoEncontrada;
+}

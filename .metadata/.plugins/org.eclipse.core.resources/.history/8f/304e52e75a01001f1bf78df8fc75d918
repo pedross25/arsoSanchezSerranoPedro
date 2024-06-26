@@ -1,0 +1,55 @@
+package alquileres.persistencia.jpa.modelo;
+
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "reserva")
+public class ReservaEntidad {
+    
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntidad usuario;
+    
+    @Column(name = "fecha_creacion", columnDefinition = "DATE")
+	private LocalDate creada;
+    
+    @Column(name = "fecha_caducidad", columnDefinition = "DATE")
+	private LocalDate caducidad;
+
+	public ReservaEntidad() {
+		super();
+	}
+
+	public UsuarioEntidad getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioEntidad usuario) {
+		this.usuario = usuario;
+	}
+
+	public LocalDate getCreada() {
+		return creada;
+	}
+
+	public void setCreada(LocalDate creada) {
+		this.creada = creada;
+	}
+
+	public LocalDate getCaducidad() {
+		return caducidad;
+	}
+
+	public void setCaducidad(LocalDate caducidad) {
+		this.caducidad = caducidad;
+	}
+    
+    
+}

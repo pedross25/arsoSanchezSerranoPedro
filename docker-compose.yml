@@ -1,0 +1,98 @@
+
+version: '3.7'
+
+services:
+  alquileres:
+    build:
+      context: ./alquileres
+    environment:
+      ##DB_URL: "jdbc:mysql://localhost:3306/alquileres_db?serverTimezone=CET"
+      DB_URL: "jdbc:mysql://mysql:3306/alquileres_db?serverTimezone=CET"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "secreto"
+      AMQP_URI: "amqp://guest:guest@rabbitmq:5672"
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+
+  estaciones:
+    build:
+      context: ./estaciones
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://root:secreto@mongo:27017/estaciones_db?authSource=admin
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - mongo
+    ports:
+      - "8082:8082"
+
+  usuarios:
+    build:
+      context: ./usuarios
+    environment:
+    - MONGODB_CONNECTION_STRING=mongodb://root:secreto@mongo:27017/?authMechanism=SCRAM-SHA-256&authSource=admin
+    - MONGODB_DATABASE=arso
+
+      #- MONGODB_CONNECTION_STRING=mongodb://root:secreto@mongo:27017/
+      #- MONGODB_DATABASE=arso
+    depends_on:
+      - mongo
+    ports:
+      - "5047:5047"
+
+  pasarela:
+    build:
+      context: ./pasarela
+    ports:
+      - "8090:8090"
+    depends_on:
+      - alquileres
+      - estaciones
+      - usuarios
+
+  rabbitmq: # por defecto, credenciales guest/guest
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "5672:5672"  # Puerto AMQP
+      - "15672:15672"  # Puerto administración web
+
+  mysql:
+    image: arm64v8/mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secreto
+      MYSQL_DATABASE: alquileres_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  mongo: 
+    image: mongo:7
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secreto
+      MONGO_INITDB_DATABASE: "arso, estaciones_db"
+  mongo-express: 
+    image: mongo-express:1.0.2-20
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secreto
+      ME_CONFIG_MONGODB_URL: mongodb://root:secreto@mongo:27017/
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
+  mysql-data:

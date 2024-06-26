@@ -1,0 +1,5 @@
+package alquileres.persistencia.jpa.modelo;
+
+public class AlquilerEntidad {
+
+}

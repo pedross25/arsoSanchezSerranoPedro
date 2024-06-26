@@ -1,0 +1,40 @@
+package alquileres.servicio;
+
+public class UsuarioResumen {
+    private String idUsuario;
+    private List<Reserva> reservas;
+    private List<Alquiler> alquileres;
+    private EstadoServicio estadoServicio;
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public List<Alquiler> getAlquileres() {
+        return alquileres;
+    }
+
+    public void setAlquileres(List<Alquiler> alquileres) {
+        this.alquileres = alquileres;
+    }
+
+    public EstadoServicio getEstadoServicio() {
+        return estadoServicio;
+    }
+
+    public void setEstadoServicio(EstadoServicio estadoServicio) {
+        this.estadoServicio = estadoServicio;
+    }
+}

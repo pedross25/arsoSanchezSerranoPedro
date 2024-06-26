@@ -1,0 +1,83 @@
+package alquileres.persistencia.jpa;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import repositorio.EntidadNoEncontrada;
+import repositorio.Identificable;
+import repositorio.RepositorioException;
+import repositorio.RepositorioString;
+import utils.Utils;
+
+public class RepositorioJpa<T extends Identificable> implements RepositorioString<T> {
+	protected Class<T> persistedClass;
+	protected String name;
+
+	public RepositorioJpa(Class<T> persistedClass) {
+		this.persistedClass = persistedClass;
+		name = persistedClass.getName().substring(persistedClass.getName().lastIndexOf(".") + 1);
+	}
+
+	@Override
+	public String add(T entity) throws RepositorioException {
+		if (entity.getId() ==  null) {
+			entity.setId(Utils.createId());
+		}
+		EntityManagerHelper.getEntityManager().persist(entity);
+		return entity.getId();
+	}
+
+	@Override
+	public void update(T entity) throws RepositorioException, EntidadNoEncontrada {
+		if (! EntityManagerHelper.getEntityManager().contains(entity))
+			throw new EntidadNoEncontrada(entity.getId() + " no existe en el repositorio");
+		
+		EntityManagerHelper.getEntityManager().merge(entity);	
+	}
+
+	@Override
+	public void delete(T entity) throws RepositorioException, EntidadNoEncontrada {
+		EntityManager entityManager = EntityManagerHelper.getEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.remove(entity);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            entityManager.close();
+        }
+	}
+
+	@Override
+	public T getById(String id) throws RepositorioException, EntidadNoEncontrada {
+		try {
+			T instance = EntityManagerHelper.getEntityManager().find(persistedClass, id);
+			if (instance != null) {
+				EntityManagerHelper.getEntityManager().refresh(instance);
+			}
+			return instance;
+		} catch (RuntimeException re) {
+			throw re;
+		}
+	}
+
+	@Override
+	public List<T> getAll() throws RepositorioException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getIds() throws RepositorioException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,19 @@
+package alquileres.servicio;
+
+import repositorio.EntidadNoEncontrada;
+
+public class ServicioEstaciones implements IServicioEstaciones {
+
+	@Override
+	public boolean isHuecoDisponible(String idEstacion) throws EntidadNoEncontrada {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean situarBicicleta(String idEstacion, String idBicicleta) throws EntidadNoEncontrada {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

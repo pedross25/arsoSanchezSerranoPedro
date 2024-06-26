@@ -1,0 +1,108 @@
+package alquileres.servicio;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import alquileres.modelo.Alquiler;
+import alquileres.modelo.Reserva;
+import alquileres.modelo.Usuario;
+import repositorio.EntidadNoEncontrada;
+import repositorio.FactoriaRepositorios;
+import repositorio.Repositorio;
+import repositorio.RepositorioException;
+
+public class ServicioAlquiler implements IServicioAlquiler {
+
+	private Repositorio<Usuario, String> repositorio = FactoriaRepositorios.getRepositorio(Usuario.class);
+
+	@Override
+	public void reservar(String idUsuario, String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
+		
+		if (idUsuario == null || idUsuario.isEmpty())
+			throw new IllegalArgumentException("El identificador del usuario no debe ser nulo o vacío");
+		
+		if (idBicicleta == null || idBicicleta.isEmpty()) {
+			throw new IllegalArgumentException("El identificador de la bicicleta no debe ser nulo o vacío");
+		}
+		Usuario usuario = repositorio.getById(idUsuario);
+		
+		if (usuario.getReservaActiva() != null) {
+			throw new RepositorioException("El usuario tiene una reserva activa");
+		}
+		
+		if (usuario.isAlquilerActivo() != null) {
+			throw new RepositorioException("El usuario tiene un alquiler activo");
+		}
+		
+		if (usuario.isBloqueado()) {
+			throw new RepositorioException("El usuario está bloqueado");
+		}
+		
+		Reserva reserva = new Reserva();
+		reserva.setIdBicicleta(idBicicleta);
+		LocalDateTime creacion = LocalDateTime.now();
+		reserva.setCreada(creacion);
+		reserva.setCaducidad(creacion.plusMinutes(30));
+		
+		List<Reserva> reservas = usuario.getReservas();
+		reservas.add(reserva);
+		usuario.setReservas(reservas);
+		repositorio.update(usuario);
+	}
+  
+	@Override
+	public void confirmarReserva(String idUsuario) throws RepositorioException, EntidadNoEncontrada {
+		if (idUsuario == null || idUsuario.isEmpty())
+			throw new IllegalArgumentException("El identificador del usuario no debe ser nulo o vacío");
+		
+		Usuario usuario = repositorio.getById(idUsuario);
+		Reserva reserva = usuario.getReservaActiva();
+		
+		if (reserva == null) {
+			throw new RepositorioException("El usuario no tiene una reserva activa");
+		}
+		
+		Alquiler alquiler = new Alquiler();
+		alquiler.setIdBicicleta(reserva.getIdBicicleta());
+		alquiler.setInicio(LocalDateTime.now());
+		
+		// Crear una nueva lista de reservas sin la reserva activa
+	    List<Reserva> nuevasReservas = usuario.getReservas();
+	    nuevasReservas.remove(reserva);
+	    usuario.setReservas(nuevasReservas);
+	    
+	    List<Alquiler> alquileres = usuario.getAlquileres();
+	    alquileres.add(alquiler);
+	    usuario.setAlquileres(alquileres);
+	    
+	    repositorio.update(usuario);
+	}
+
+	@Override
+	public String alquilar(String idUsuario, String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
+		if (idUsuario == null || idUsuario.isEmpty())
+			throw new IllegalArgumentException("El identificador del usuario no debe ser nulo o vacío");
+		
+		if (idBicicleta == null || idBicicleta.isEmpty()) {
+			throw new IllegalArgumentException("El identificador de la bicicleta no debe ser nulo o vacío");
+		}
+		
+		Usuario usuario = repositorio.getById(idUsuario);
+		
+		
+		return null;
+	}
+
+	@Override
+	public void dejarBicicleta(String idUsuario, String idEstacion) throws RepositorioException, EntidadNoEncontrada {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void liberarBloqueo(String idUsuario) throws RepositorioException, EntidadNoEncontrada {
+		// TODO Auto-generated method stub
+
+	}
+
+}

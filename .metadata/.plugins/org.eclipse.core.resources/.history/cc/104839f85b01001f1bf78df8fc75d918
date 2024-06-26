@@ -1,0 +1,8 @@
+package alquileres.persistencia.jpa;
+
+import repositorio.Identificable;
+import repositorio.RepositorioString;
+
+public class RepositorioJpa<T extends Identificable> implements RepositorioString<T> {
+
+}
